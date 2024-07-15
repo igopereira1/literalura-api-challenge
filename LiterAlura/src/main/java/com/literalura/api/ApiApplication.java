@@ -9,8 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ApiApplication implements CommandLineRunner {
+	private final Main main;
+
 	@Autowired
-	private Main main;
+	public ApiApplication(Main main) {
+		this.main = main;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
