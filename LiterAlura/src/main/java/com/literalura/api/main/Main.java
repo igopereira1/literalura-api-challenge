@@ -184,22 +184,31 @@ public class Main {
         System.out.println("Digite o ano: ");
         int checkYear = scanner.nextInt();
         List<Author> authors = authorRepository.findAuthorsAliveInYear(checkYear);
-        authors.forEach(this::printAuthorEntity);
+
+        if (authors.isEmpty()) {
+            System.out.println("Nenhum autor vivo encontrado para o ano " + checkYear + "\n");
+        } else {
+            authors.forEach(this::printAuthorEntity);
+        }
     }
 
     public void listBooksByLanguage() {
         String languageMenu = """
-                Escolha o idioma:
-                en - Inglês
-                es - Espanhol
-                fr - Francês
-                pt - Português
-                """;
+            Escolha o idioma:
+            en - Inglês
+            es - Espanhol
+            fr - Francês
+            pt - Português
+            """;
         System.out.println(languageMenu);
 
         String language = scanner.nextLine();
         List<Book> books = bookRepository.findByLanguageContainingIgnoreCase(language);
-        books.forEach(this::printBookEntity);
-        System.out.println();
+
+        if (books.isEmpty()) {
+            System.out.println("Nenhum livro encontrado para o idioma selecionado.\n");
+        } else {
+            books.forEach(this::printBookEntity);
+        }
     }
 }
