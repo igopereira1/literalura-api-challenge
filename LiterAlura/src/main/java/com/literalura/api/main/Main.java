@@ -41,6 +41,7 @@ public class Main {
                     1. Buscar livro pelo título na API Gutendex
                     2. Listar livros registrados
                     3. Listar autores registrados
+                    4. Listar autores vivos em um ano específico
                     0. Sair
                     """;
             System.out.println(menu);
@@ -56,6 +57,9 @@ public class Main {
                     break;
                 case 3:
                     getAuthorsFromDatabase();
+                    break;
+                case 4:
+                    getAuthorsAliveInYear();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -170,5 +174,12 @@ public class Main {
         System.out.println("Livros: ");
         author.getBooks().forEach(book -> System.out.println(" - " + book.getTitle()));
         System.out.println("-----------------------------------");
+    }
+
+    public void getAuthorsAliveInYear() {
+        System.out.println("Digite o ano: ");
+        int checkYear = scanner.nextInt();
+        List<Author> authors = authorRepository.findAuthorsAliveInYear(checkYear);
+        authors.forEach(this::printAuthorEntity);
     }
 }
