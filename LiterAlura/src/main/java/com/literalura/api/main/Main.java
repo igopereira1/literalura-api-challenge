@@ -42,6 +42,7 @@ public class Main {
                     2. Listar livros registrados
                     3. Listar autores registrados
                     4. Listar autores vivos em um ano específico
+                    5. Listar livros por idioma
                     0. Sair
                     """;
             System.out.println(menu);
@@ -60,6 +61,9 @@ public class Main {
                     break;
                 case 4:
                     getAuthorsAliveInYear();
+                    break;
+                case 5:
+                    getBooksByLanguage();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -124,7 +128,7 @@ public class Main {
         System.out.println("---------------LIVRO---------------");
         System.out.println("Título: " + bookDataDTO.title());
         System.out.println("Autor: " + bookDataDTO.authors().get(0).name());
-        System.out.println("Línguas: " + String.join(", ", bookDataDTO.languages()));
+        System.out.println("Língua: " + String.join(", ", bookDataDTO.languages()));
         System.out.println("Número de Downloads: " + bookDataDTO.downloadCount());
         System.out.println("-----------------------------------");
         System.out.println("\n");
@@ -181,5 +185,21 @@ public class Main {
         int checkYear = scanner.nextInt();
         List<Author> authors = authorRepository.findAuthorsAliveInYear(checkYear);
         authors.forEach(this::printAuthorEntity);
+    }
+
+    public void getBooksByLanguage() {
+        String languageMenu = """
+                Escolha o idioma:
+                en - Inglês
+                es - Espanhol
+                fr - Francês
+                pt - Português
+                """;
+        System.out.println(languageMenu);
+
+        String language = scanner.nextLine();
+        List<Book> books = bookRepository.findByLanguageContainingIgnoreCase(language);
+        books.forEach(this::printBookEntity);
+        System.out.println();
     }
 }
