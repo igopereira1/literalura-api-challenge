@@ -38,7 +38,7 @@ public class Main {
         int option = -1;
         while (option != 0) {
             String menu = """
-                    1. Buscar livro pelo título na API Gutendex
+                    1. Listar livros pelo título na API Gutendex
                     2. Listar livros registrados
                     3. Listar autores registrados
                     4. Listar autores vivos em um ano específico
@@ -51,19 +51,19 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    getBooks();
+                    listBooks();
                     break;
                 case 2:
-                    getBooksFromDatabase();
+                    listBooksFromDatabase();
                     break;
                 case 3:
-                    getAuthorsFromDatabase();
+                    listAuthorsFromDatabase();
                     break;
                 case 4:
-                    getAuthorsAliveInYear();
+                    listAuthorsAliveInYear();
                     break;
                 case 5:
-                    getBooksByLanguage();
+                    listBooksByLanguage();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -74,7 +74,7 @@ public class Main {
         }
     }
 
-    private void getBooks() throws JsonProcessingException {
+    private void listBooks() throws JsonProcessingException {
         try {
             BookResultsDTO bookResultsDTO = getBookData();
             Optional<BookDataDTO> bookDataDTO = bookResultsDTO.books().stream()
@@ -134,7 +134,7 @@ public class Main {
         System.out.println("\n");
     }
 
-    private void getBooksFromDatabase() {
+    private void listBooksFromDatabase() {
         List<Book> books = bookRepository.findAll();
         if (books.isEmpty()) {
             System.out.println("Nenhum livro registrado");
@@ -156,7 +156,7 @@ public class Main {
         System.out.println("-----------------------------------");
     }
 
-    private void getAuthorsFromDatabase() {
+    private void listAuthorsFromDatabase() {
         List<Author> authors = authorRepository.findAll();
         if (authors.isEmpty()) {
             System.out.println("Nenhum autor registrado");
@@ -180,14 +180,14 @@ public class Main {
         System.out.println("-----------------------------------");
     }
 
-    public void getAuthorsAliveInYear() {
+    public void listAuthorsAliveInYear() {
         System.out.println("Digite o ano: ");
         int checkYear = scanner.nextInt();
         List<Author> authors = authorRepository.findAuthorsAliveInYear(checkYear);
         authors.forEach(this::printAuthorEntity);
     }
 
-    public void getBooksByLanguage() {
+    public void listBooksByLanguage() {
         String languageMenu = """
                 Escolha o idioma:
                 en - Inglês
