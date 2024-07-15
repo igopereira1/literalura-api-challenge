@@ -8,6 +8,11 @@ public class DataConverter implements IDataConverter {
 
     @Override
     public <T> T getData(String json, Class<T> className) throws JsonProcessingException {
-        return objectMapper.readValue(json, className);
+        try {
+            return objectMapper.readValue(json, className);
+        } catch (JsonProcessingException e) {
+            throw new JsonProcessingException("Error converting data") {
+            };
+        }
     }
 }
