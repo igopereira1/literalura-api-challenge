@@ -12,6 +12,7 @@ import com.literalura.api.service.DataConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -38,6 +39,8 @@ public class Main {
         while (option != 0) {
             String menu = """
                     1. Buscar livro pelo título na API Gutendex
+                    2. Listar livros registrados
+                    3. Listar autores registrados
                     0. Sair
                     """;
             System.out.println(menu);
@@ -47,6 +50,12 @@ public class Main {
             switch (option) {
                 case 1:
                     getBooks();
+                    break;
+                case 2:
+                    getBooksFromDatabase();
+                    break;
+                case 3:
+                    getAuthorsFromDatabase();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -115,5 +124,48 @@ public class Main {
         System.out.println("Número de Downloads: " + bookDataDTO.downloadCount());
         System.out.println("-----------------------------------");
         System.out.println("\n");
+    }
+
+    private void getBooksFromDatabase() {
+        List<Book> books = bookRepository.findAll();
+        if (books.isEmpty()) {
+            System.out.println("Nenhum livro registrado");
+            System.out.println("\n");
+        } else {
+            books.sort(Comparator.comparing(Book::getTitle));
+            books.forEach(this::printBookEntity);
+            System.out.println("\n");
+        }
+    }
+
+    private void printBookEntity(Book book) {
+        System.out.println("-----------------------------------");
+        System.out.println("---------------LIVRO---------------");
+        System.out.println("Título: " + book.getTitle());
+        System.out.println("Autor: " + book.getAuthor().getName());
+        System.out.println("Língua: " + book.getLanguage());
+        System.out.println("Número de Downloads: " + book.getDownloads());
+        System.out.println("-----------------------------------");
+    }
+
+    private void getAuthorsFromDatabase() {
+        List<Author> authors = authorRepository.findAll();
+        if (authors.isEmpty()) {
+            System.out.println("Nenhum autor registrado");
+            System.out.println("\n");
+        } else {
+            authors.sort(Comparator.comparing(Author::getName));
+            authors.forEach(this::printAuthorEntity);
+            System.out.println("\n");
+        }
+    }
+
+    private void printAuthorEntity(Author author) {
+        System.out.println("-----------------------------------");
+        System.out.println("---------------AUTOR---------------");
+        System.out.println("Nome: " + author.getName());
+        System.out.println("Data de Nascimento: " + author.getBirthYear());
+        System.out.println("Data de Falecimento: " + author.getDeathYear());
+        System.out.println("-----------------------------------");
     }
 }
