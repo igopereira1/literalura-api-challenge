@@ -166,6 +166,9 @@ public class Main {
         System.out.println("Nome: " + author.getName());
         System.out.println("Data de Nascimento: " + author.getBirthYear());
         System.out.println("Data de Falecimento: " + author.getDeathYear());
+        System.out.println("Número de Livros: " + author.getBooks().size());
+        System.out.println("Livros: ");
+        author.getBooks().forEach(book -> System.out.println(" - " + book.getTitle()));
         System.out.println("-----------------------------------");
     }
 }
