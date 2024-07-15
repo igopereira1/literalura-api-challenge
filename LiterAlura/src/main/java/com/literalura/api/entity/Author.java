@@ -50,4 +50,12 @@ public class Author {
     public void setDeathYear(Integer deathYear) {
         this.deathYear = deathYear;
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 }
